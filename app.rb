@@ -48,7 +48,13 @@ def get_location
 end
 
 get "/" do
-  "Nothing to see here yet..."
+  loc = get_location
+  if loc[:city] == 'N/A'
+    "<html><body><h1>Location Currently Unavailable...</body></html>"
+  else
+    loc_str = "#{loc[:city]}, #{loc[:state]}, #{loc[:country]}"
+    redirect "http://maps.google.com/maps?q=#{CGI::escape(loc_str)}&z=6"
+  end
 end
 
 get "/loc.json" do
